@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Activity, Award, RefreshCw, AlertTriangle, ShieldCheck, Zap } from 'lucide-react';
+import { RefreshCw, AlertTriangle, Zap } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 
 export function PredictionsSection() {
