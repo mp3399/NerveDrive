@@ -7,6 +7,7 @@
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
   [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=flat-square&logo=vite&logoColor=FFD62E)](https://vitejs.dev)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+  [![GitHub stars](https://img.shields.io/github/stars/mp3399/NerveDrive?style=flat-square&logo=github&label=Stars)](https://github.com/mp3399/NerveDrive/stargazers)
 </div>
 
 ---
@@ -146,3 +147,11 @@ Contributions are welcome and appreciated. To maintain repository quality, pleas
 
 ## 📄 License
 *Pending*
+
+---
+
+## ⭐ Star History
+
+<a href="https://star-history.com/#mp3399/NerveDrive&Date">
+  <img src="https://api.star-history.com/svg?repos=mp3399/NerveDrive&type=Date" alt="NerveDrive Star History Chart" width="600" />
+</a>
