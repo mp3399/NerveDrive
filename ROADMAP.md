@@ -12,12 +12,12 @@
 - Saved snapshots via `localStorage` (opt-in, on-device only).
 - Vitest coverage for the analysis engine and a golden-file test.
 
-## Later — multi-source
+## Later: Multi-source
 The parser is abstracted behind a `Parsed` shape, so new providers slot in cleanly:
 - Google Fit / Health Connect
 - Garmin, Fitbit, WHOOP, Oura, Polar, Strava
 
 ## Exploratory
-- On-device LLM summary (WebGPU) for a natural-language narrative — still zero data leaving the device.
+- On-device LLM summary (WebGPU) for a natural-language narrative: still zero data leaving the device.
 - Doctor-shareable one-page PDF.
 - Family dashboard (multiple local profiles).

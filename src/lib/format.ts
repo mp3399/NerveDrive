@@ -1,15 +1,15 @@
 import type { Status } from '../types/health';
 
 export const n0 = (v: number | null | undefined): string =>
-  v == null || isNaN(v) ? '—' : Math.round(v).toLocaleString();
+  v == null || isNaN(v) ? '--' : Math.round(v).toLocaleString();
 export const n1 = (v: number | null | undefined): string =>
-  v == null || isNaN(v) ? '—' : v.toFixed(1);
+  v == null || isNaN(v) ? '--' : v.toFixed(1);
 export const pct = (v: number | null | undefined): string =>
-  v == null || isNaN(v) ? '—' : `${Math.round(v)}%`;
+  v == null || isNaN(v) ? '--' : `${Math.round(v)}%`;
 
 /** decimal clock hour -> "5:32 AM" */
 export function clock(h: number | null | undefined): string {
-  if (h == null || isNaN(h)) return '—';
+  if (h == null || isNaN(h)) return '--';
   const hh = ((Math.floor(h) % 24) + 24) % 24;
   const mm = Math.round((h - Math.floor(h)) * 60);
   const ampm = hh < 12 ? 'AM' : 'PM';

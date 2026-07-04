@@ -121,7 +121,7 @@ export function exportPDF(r: AnalysisResult) {
     `Sleep: ${n1(s.meanSleepH)}h  ·  bedtime ${clock(s.medianBedH)}  ·  nights <6h ${Math.round(s.pctUnder6h)}%`,
   ].forEach((t) => line(t));
   y += 6; line('Population Comparison', 15, true);
-  r.population.forEach((p) => line(`${p.metric}: ${p.value} — ${p.category}`, 11, false, '#333'));
+  r.population.forEach((p) => line(`${p.metric}: ${p.value} - ${p.category}`, 11, false, '#333'));
   y += 10; line('Generated in-browser by NerveDrive · not a medical diagnosis.', 9, false, '#888');
   doc.save('nervedrive-report.pdf');
 }

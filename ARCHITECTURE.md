@@ -77,14 +77,14 @@ Measured on a real 238 MB export: **~3 s, ~25 MB heap.** This is validated in No
 
 `analyze(parsed, profile)` is a pure function returning a serialisable `AnalysisResult`. It computes:
 
-- **Window detection** — automatically trims stray historical fragments by finding gaps > 45 days, so multi-year-old one-off records don't distort stats.
-- **Activity** — median/mean/percentiles, weekday vs weekend, day-of-week and monthly aggregation, streaks, distance, exercise minutes. Steps are de-duplicated across devices via per-day max-by-source.
-- **Cardio** — resting HR and HRV daily means with first-vs-last-month trends, VO₂ trajectory, hourly HR profile, and HR-zone distribution.
-- **Sleep** — segments are bucketed noon-to-noon, restricted to the main nocturnal episode (19:00–11:00) to exclude naps, then duration, efficiency, stage split, bedtime/wake and variability are computed.
-- **Correlations** — Pearson r across daily metrics with sample sizes, plus a full matrix.
-- **Anomalies** — 2σ resting-HR spikes and HRV crashes, short-sleep nights, and data contamination.
-- **Population** — age- and sex-adjusted bands.
-- **Scores** — nine 0–100 dimensions from evidence-based targets (methodology documented inline and in the UI).
+- **Window detection**: automatically trims stray historical fragments by finding gaps > 45 days, so multi-year-old one-off records don't distort stats.
+- **Activity**: median/mean/percentiles, weekday vs weekend, day-of-week and monthly aggregation, streaks, distance, exercise minutes. Steps are de-duplicated across devices via per-day max-by-source.
+- **Cardio**: resting HR and HRV daily means with first-vs-last-month trends, VO₂ trajectory, hourly HR profile, and HR-zone distribution.
+- **Sleep**: segments are bucketed noon-to-noon, restricted to the main nocturnal episode (19:00–11:00) to exclude naps, then duration, efficiency, stage split, bedtime/wake and variability are computed.
+- **Correlations**: Pearson r across daily metrics with sample sizes, plus a full matrix.
+- **Anomalies**: 2σ resting-HR spikes and HRV crashes, short-sleep nights, and data contamination.
+- **Population**: age- and sex-adjusted bands.
+- **Scores**: nine 0–100 dimensions from evidence-based targets (methodology documented inline and in the UI).
 
 Because the engine is framework-free, it is trivially unit-testable and reusable (CLI, tests, future integrations).
 
@@ -101,13 +101,13 @@ A single small **Zustand** store holds the phase machine (`idle → processing �
 | Choice | Why | Trade-off considered |
 |---|---|---|
 | **Vite** | Instant HMR, simple static output, first-class Web Worker + ESM support. | Next.js rejected: SSR/serverless adds a backend surface that conflicts with the privacy goal. |
-| **React + TypeScript** | Ubiquitous, typed domain model catches parsing/shape bugs at compile time. | — |
+| **React + TypeScript** | Ubiquitous, typed domain model catches parsing/shape bugs at compile time. | N/A |
 | **Tailwind** | Token-driven theming via CSS variables; fast iteration; tiny runtime. | Hand-written CSS would be slower to keep consistent. |
 | **Zustand** | Minimal global state, slice subscriptions. | Redux too heavy; Context re-renders too broadly. |
 | **ECharts** | Best built-in interactivity + export; scales to large datasets. | Recharts/Chart.js lack native zoom/pan/SVG export; D3 is lower-level than needed. |
-| **JSZip** | Mature client-side zip with a streaming API. | — |
+| **JSZip** | Mature client-side zip with a streaming API. | N/A |
 | **Web Worker** | Keeps a multi-hundred-MB parse off the main thread. | WASM parser considered; unnecessary given JS streaming already hits ~3 s. |
-| **jsPDF / PapaParse** | Client-side PDF and CSV without a server. | — |
+| **jsPDF / PapaParse** | Client-side PDF and CSV without a server. | N/A |
 
 ## 9. Performance
 
@@ -115,7 +115,7 @@ Streaming parse (constant memory), all heavy work in a Worker, `notMerge` chart 
 
 ## 10. Error handling
 
-The worker normalises failures into human-readable messages (missing `export.xml`, empty export, corrupt zip, unexpected errors) surfaced by a dedicated `ErrorScreen` with a one-click retry. Parsing is defensive: malformed lines are skipped, NaNs are filtered, and empty datasets degrade gracefully to "—" rather than crashing.
+The worker normalises failures into human-readable messages (missing `export.xml`, empty export, corrupt zip, unexpected errors) surfaced by a dedicated `ErrorScreen` with a one-click retry. Parsing is defensive: malformed lines are skipped, NaNs are filtered, and empty datasets degrade gracefully to "--" rather than crashing.
 
 ## 11. Accessibility
 

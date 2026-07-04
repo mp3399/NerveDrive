@@ -23,7 +23,7 @@ To remove even the font request:
 
 ## Analytics
 
-No analytics SDK is bundled. If a fork adds usage analytics, it must never transmit health data or file contents — this is a hard project rule.
+No analytics SDK is bundled. If a fork adds usage analytics, it must never transmit health data or file contents. This is a hard project rule.
 
 ## Exports
 

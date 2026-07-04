@@ -25,7 +25,7 @@ export function buildRecommendations(r: AnalysisResult): Reco[] {
   if (r.workouts.n < 30 || Object.keys(r.workouts.byType).length <= 2)
     recos.push({ title: 'Add two short resistance sessions per week', why: 'Nothing in your data builds muscle. Resistance work protects lean mass a normal BMI can hide the loss of.', impact: 'High', effort: 'Medium' });
   if (a.stepsMedian < 7000)
-    recos.push({ title: `Lift weekday steps toward ${a.weekendMean > a.weekdayMean ? '6,000' : '8,000'}`, why: `Median is ${Math.round(a.stepsMedian)}. ${a.weekendMean > a.weekdayMean ? 'Weekdays are where movement dies — add short walks to the workday.' : 'Small structural walks close most of the gap.'}`, impact: 'High', effort: 'Low' });
+    recos.push({ title: `Lift weekday steps toward ${a.weekendMean > a.weekdayMean ? '6,000' : '8,000'}`, why: `Median is ${Math.round(a.stepsMedian)}. ${a.weekendMean > a.weekdayMean ? 'Weekdays are where movement dies: add short walks to the workday.' : 'Small structural walks close most of the gap.'}`, impact: 'High', effort: 'Low' });
   recos.push({ title: 'Screens off / dimmed 45 min before target bedtime', why: 'Breaks the late-screen to late-sleep loop driving the phase delay.', impact: 'High', effort: 'Low' });
   recos.push({ title: 'No caffeine after mid-afternoon', why: 'Protects the earlier bedtime you are building.', impact: 'High', effort: 'Low' });
   if (r.body.weightRecords.length < 5)
