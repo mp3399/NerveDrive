@@ -101,14 +101,14 @@ export function Landing() {
 
         {/* Compatibility Block */}
         <motion.section
-          className="mt-20 relative overflow-hidden"
+          className="mt-20 relative"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <div className="flex flex-col md:flex-row gap-6 mb-8">
             {/* Apple Health Card */}
-            <div className="flex-1 card p-6 bg-surface/30 backdrop-blur-md border border-white/5 relative overflow-hidden group hover:border-line transition-colors">
+            <div className="flex-1 rounded-3xl p-6 bg-surface border border-line/50 shadow-sm relative overflow-hidden group hover:border-line transition-colors">
               <div className="absolute -left-20 -bottom-20 w-48 h-48 rounded-full bg-accent/5 blur-3xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
               <div className="flex flex-col gap-4 relative z-10">
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white shadow-md border border-slate-100 p-2">
@@ -124,7 +124,7 @@ export function Landing() {
             </div>
 
             {/* Android Health Connect Card */}
-            <div className="flex-1 card p-6 bg-surface/30 backdrop-blur-md border border-white/5 relative overflow-hidden group hover:border-line transition-colors">
+            <div className="flex-1 rounded-3xl p-6 bg-surface border border-line/50 shadow-sm relative overflow-hidden group hover:border-line transition-colors">
               <div className="absolute -right-20 -bottom-20 w-48 h-48 rounded-full bg-green-500/5 blur-3xl pointer-events-none group-hover:bg-green-500/10 transition-colors" />
               <div className="flex flex-col gap-4 relative z-10">
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white shadow-md border border-slate-100 overflow-hidden">
@@ -138,7 +138,7 @@ export function Landing() {
             </div>
           </div>
 
-          <div className="card p-6 sm:p-8 border border-white/5 bg-surface/30 backdrop-blur-md">
+          <div className="rounded-3xl p-6 sm:p-8 bg-surface border border-line/50 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <h4 className="font-grotesk font-semibold text-ink flex items-center gap-2">
                 <ArrowDownToLine size={16} className="text-accent" /> How to Export Your Data
