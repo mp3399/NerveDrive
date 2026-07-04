@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Privacy question
+    url: https://github.com/your-username/vitalscope/blob/main/PRIVACY.md
+    about: How VitalScope handles your data.
