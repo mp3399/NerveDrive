@@ -16,7 +16,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "echarts": "^5.5.1",
+    "echarts": "^6.1.0",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^11.3.19",
     "jspdf": "^2.5.1",
