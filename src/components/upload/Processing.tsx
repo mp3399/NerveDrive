@@ -2,6 +2,7 @@ import { Check, Loader2, AlertTriangle, RotateCcw } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { fileSize } from '../../lib/format';
 import { DotMatrixNumber } from '../ui/DotMatrixNumber';
+import { Logo } from '../ui/Logo';
 
 const STAGES = [
   { at: 8, label: 'Extracting ZIP' },
@@ -17,6 +18,9 @@ export function Processing() {
     <div className="mx-auto grid min-h-screen max-w-lg place-items-center px-6">
       <div className="w-full">
         <div className="mb-8 text-center">
+          <div className="mx-auto mb-6 w-fit">
+            <Logo className="h-16 w-16" />
+          </div>
           <div className="mx-auto mb-4 w-fit text-accent">
             <DotMatrixNumber value={progress} size={11} gap={4} />
           </div>
