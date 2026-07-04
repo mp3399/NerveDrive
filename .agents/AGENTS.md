@@ -58,12 +58,13 @@ Run the following build checks:
 
 ---
 
-## 4. Git Identity and Privacy Protection
-All commits in this repository must belong exclusively to **mp3399**.
+## 4. Git Identity Consistency
+All commits must use this repository's configured Git identity (its GitHub no-reply email).
 
 ### Strict Constraints
-- No work-related GitHub identities (such as `work-account`) or work-related emails may author any commit.
-- Before committing, verify git configuration settings locally using `git config user.name` and `git config user.email`.
+- Every commit's author and committer must match the repository's configured Git identity.
+- Never commit using a name or email tied to a different or external account.
+- Before committing, verify local settings with `git config user.name` and `git config user.email`.
 
 ---
 
