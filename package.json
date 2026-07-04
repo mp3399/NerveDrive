@@ -1,0 +1,50 @@
+{
+  "name": "vitalscope",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Privacy-first, in-browser Apple Health analytics. Upload your export ZIP, get a premium health intelligence dashboard. Your data never leaves your device.",
+  "license": "MIT",
+  "homepage": "https://github.com/your-username/vitalscope",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "echarts": "^5.5.1",
+    "echarts-for-react": "^3.0.2",
+    "framer-motion": "^11.3.19",
+    "jspdf": "^2.5.1",
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.417.0",
+    "papaparse": "^5.4.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sql.js": "^1.14.1",
+    "zustand": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.14",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/sql.js": "^1.4.11",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "postcss": "^8.4.40",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
+    "vitest": "^2.0.5"
+  }
+}
