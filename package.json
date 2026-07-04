@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Privacy-first, in-browser Apple Health analytics. Upload your export ZIP, get a premium health intelligence dashboard. Your data never leaves your device.",
   "license": "MIT",
-  "homepage": "https://github.com/your-username/vitalscope",
+  "homepage": "https://github.com/mp3399/NerveDrive",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
