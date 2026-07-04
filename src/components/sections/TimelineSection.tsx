@@ -166,21 +166,21 @@ export function TimelineSection() {
                         <div>
                           <span className="text-[10px] text-faint uppercase tracking-wider block font-semibold mb-2">Aligned Biometrics</span>
                           <div className="grid grid-cols-4 gap-2 text-center text-ink font-semibold">
-                            <div className="bg-surface-2 p-2 rounded-lg border border-line/30">
+                            <div className="min-w-0 bg-surface-2 p-2 rounded-lg border border-line/30">
                               <span className="text-[9px] text-muted block font-normal">Sleep</span>
-                              <span className="font-grotesk">{event.alignedData.sleep}</span>
+                              <span className="font-grotesk block break-words tabular-nums">{event.alignedData.sleep}</span>
                             </div>
-                            <div className="bg-surface-2 p-2 rounded-lg border border-line/30">
+                            <div className="min-w-0 bg-surface-2 p-2 rounded-lg border border-line/30">
                               <span className="text-[9px] text-muted block font-normal">Activity</span>
-                              <span className="font-grotesk">{event.alignedData.workouts}</span>
+                              <span className="font-grotesk block break-words tabular-nums">{event.alignedData.workouts}</span>
                             </div>
-                            <div className="bg-surface-2 p-2 rounded-lg border border-line/30">
+                            <div className="min-w-0 bg-surface-2 p-2 rounded-lg border border-line/30">
                               <span className="text-[9px] text-muted block font-normal">Rest HR</span>
-                              <span className="font-grotesk">{event.alignedData.rhr}</span>
+                              <span className="font-grotesk block break-words tabular-nums">{event.alignedData.rhr}</span>
                             </div>
-                            <div className="bg-surface-2 p-2 rounded-lg border border-line/30">
+                            <div className="min-w-0 bg-surface-2 p-2 rounded-lg border border-line/30">
                               <span className="text-[9px] text-muted block font-normal">HRV</span>
-                              <span className="font-grotesk">{event.alignedData.hrv}</span>
+                              <span className="font-grotesk block break-words tabular-nums">{event.alignedData.hrv}</span>
                             </div>
                           </div>
                         </div>

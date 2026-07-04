@@ -6,6 +6,24 @@ import { n0, n1 } from '../../lib/format';
 
 type SystemId = 'brain' | 'heart' | 'lungs' | 'muscles';
 
+// Hotspot anchors are expressed as percentages of the figure box (viewBox 200x500),
+// so the dots track the silhouette at every size instead of drifting. `tip` picks the
+// tooltip open direction (top dots open downward, lower dots upward) to avoid the
+// card's overflow-hidden clip.
+const HOTSPOTS: Record<SystemId, { left: string; top: string; tip: 'up' | 'down' }> = {
+  brain: { left: '50%', top: '9%', tip: 'down' },
+  heart: { left: '45%', top: '30%', tip: 'down' },
+  lungs: { left: '57%', top: '28%', tip: 'down' },
+  muscles: { left: '40%', top: '68%', tip: 'up' },
+};
+
+const TIP_COPY: Record<SystemId, string> = {
+  brain: 'Controls sleep recovery, HRV baseline, and stress adaptation.',
+  heart: 'Measures VO₂ Max, resting heart rate, and stroke volume efficiency.',
+  lungs: 'Tracks oxygen saturation, respiratory rate, and energy synthesis.',
+  muscles: 'Reflects activity metrics, step volume, and active energy expenditure.',
+};
+
 export function BodySystems() {
   const r = useStore((s) => s.result!);
   const [selectedSystem, setSelectedSystem] = useState<SystemId>('heart');
@@ -104,82 +122,77 @@ export function BodySystems() {
       <div className="grid gap-6 md:grid-cols-5 items-start">
         {/* Left Column: Stylized Anatomical Graphic */}
         <div className="md:col-span-2 card p-6 border border-white/5 bg-surface/30 flex flex-col items-center justify-center relative min-h-[460px] overflow-hidden">
-          {/* Ambient Glows */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.03),transparent_70%)] pointer-events-none" />
+          {/* Ambient glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(16,185,129,0.05),transparent_70%)] pointer-events-none" />
 
-          {/* Stylized Human Silhouette */}
-          <svg className="w-48 h-96 text-line/80 drop-shadow-[0_0_15px_rgba(16,185,129,0.15)] transition-all" viewBox="0 0 200 500" fill="currentColor">
-            <path stroke="rgba(16,185,129,0.4)" strokeWidth="1.5" d="M100,15 C112,15 120,28 120,45 C120,62 112,75 100,75 C88,75 80,62 80,45 C80,28 88,15 100,15 Z M100,85 C118,85 138,92 150,105 C162,118 165,160 160,205 C155,250 145,245 142,240 C138,235 135,190 130,175 C128,225 130,350 125,430 C120,460 110,465 102,455 C95,445 95,310 95,285 C95,285 90,285 90,285 C90,310 90,445 83,455 C75,465 65,460 60,430 C55,350 57,225 55,175 C50,190 47,235 43,240 C40,245 30,250 25,205 C20,160 23,118 35,105 C47,92 67,85 85,85 L100,85 Z" />
-          </svg>
+          {/* Figure box: hotspots anchor to THIS box (viewBox ratio 2:5), so they never drift */}
+          <div className="relative mx-auto w-full max-w-[150px] aspect-[2/5]">
+            <svg
+              viewBox="0 0 200 500"
+              className="absolute inset-0 h-full w-full text-line/70 drop-shadow-[0_0_16px_rgba(16,185,129,0.16)] pointer-events-none"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              {/* Body silhouette */}
+              <path stroke="rgba(16,185,129,0.35)" strokeWidth="1.5" d="M100,15 C112,15 120,28 120,45 C120,62 112,75 100,75 C88,75 80,62 80,45 C80,28 88,15 100,15 Z M100,85 C118,85 138,92 150,105 C162,118 165,160 160,205 C155,250 145,245 142,240 C138,235 135,190 130,175 C128,225 130,350 125,430 C120,460 110,465 102,455 C95,445 95,310 95,285 C95,285 90,285 90,285 C90,310 90,445 83,455 C75,465 65,460 60,430 C55,350 57,225 55,175 C50,190 47,235 43,240 C40,245 30,250 25,205 C20,160 23,118 35,105 C47,92 67,85 85,85 L100,85 Z" />
 
-          {/* Interactive Hotspots Overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            {/* Brain Hotspot */}
-            <div className="absolute top-[40px] group pointer-events-auto">
-              <button
-                onClick={() => setSelectedSystem('brain')}
-                className={`w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center ${
-                  selectedSystem === 'brain' ? 'bg-purple-500 border-white scale-125 shadow-lg' : 'bg-purple-500/20 border-purple-400/60 hover:bg-purple-500/50'
-                }`}
-                style={{ boxShadow: selectedSystem === 'brain' ? '0 0 12px #a855f7' : '' }}
-              >
-                <span className={`absolute w-2.5 h-2.5 rounded-full bg-purple-400 ${selectedSystem === 'brain' ? 'animate-ping' : ''}`} />
-              </button>
-              <div className="absolute left-8 -top-2 w-32 opacity-0 group-hover:opacity-100 transition-opacity bg-surface-2/90 backdrop-blur border border-line/50 p-2 rounded-lg pointer-events-none shadow-xl z-10">
-                <span className="text-[10px] font-bold text-purple-400 block">Brain & Stress</span>
-                <span className="text-[9px] text-muted block mt-0.5 leading-tight">Controls sleep recovery, HRV baseline, and stress adaptation.</span>
-              </div>
-            </div>
+              {/* Low-opacity anatomical hints (decorative, non-interactive) */}
+              <g strokeLinecap="round">
+                {/* Brain */}
+                <ellipse cx="100" cy="45" rx="15" ry="13" fill="#a855f7" fillOpacity="0.16" />
+                <path d="M93,40 C97,36 103,36 107,40 M92,46 C97,50 103,50 108,46" fill="none" stroke="#a855f7" strokeOpacity="0.4" strokeWidth="1.4" />
+                {/* Lungs (behind heart) */}
+                <path d="M86,132 C74,136 72,158 82,172 C88,178 90,170 90,158 L90,134 C89,132 87,132 86,132 Z" fill="#3b82f6" fillOpacity="0.14" stroke="#3b82f6" strokeOpacity="0.28" strokeWidth="1.2" />
+                <path d="M114,132 C126,136 128,158 118,172 C112,178 110,170 110,158 L110,134 C111,132 113,132 114,132 Z" fill="#3b82f6" fillOpacity="0.14" stroke="#3b82f6" strokeOpacity="0.28" strokeWidth="1.2" />
+                {/* Heart */}
+                <path d="M100,148 C96,140 84,141 84,152 C84,163 100,172 100,172 C100,172 116,163 116,152 C116,141 104,140 100,148 Z" fill="#ef4444" fillOpacity="0.2" stroke="#ef4444" strokeOpacity="0.35" strokeWidth="1.2" />
+                {/* Muscle accents (thighs) */}
+                <ellipse cx="80" cy="345" rx="11" ry="46" fill="#10b981" fillOpacity="0.12" stroke="#10b981" strokeOpacity="0.22" strokeWidth="1.2" />
+                <ellipse cx="120" cy="345" rx="11" ry="46" fill="#10b981" fillOpacity="0.12" stroke="#10b981" strokeOpacity="0.22" strokeWidth="1.2" />
+              </g>
+            </svg>
 
-            {/* Heart Hotspot */}
-            <div className="absolute top-[120px] group pointer-events-auto">
-              <button
-                onClick={() => setSelectedSystem('heart')}
-                className={`w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center ${
-                  selectedSystem === 'heart' ? 'bg-red-500 border-white scale-125 shadow-lg' : 'bg-red-500/20 border-red-400/60 hover:bg-red-500/50'
-                }`}
-                style={{ boxShadow: selectedSystem === 'heart' ? '0 0 12px #ef4444' : '' }}
-              >
-                <span className={`absolute w-2.5 h-2.5 rounded-full bg-red-400 ${selectedSystem === 'heart' ? 'animate-ping' : ''}`} />
-              </button>
-              <div className="absolute left-8 -top-2 w-32 opacity-0 group-hover:opacity-100 transition-opacity bg-surface-2/90 backdrop-blur border border-line/50 p-2 rounded-lg pointer-events-none shadow-xl z-10">
-                <span className="text-[10px] font-bold text-red-400 block">Cardiovascular</span>
-                <span className="text-[9px] text-muted block mt-0.5 leading-tight">Measures VO₂ Max, resting heart rate, and stroke volume efficiency.</span>
-              </div>
-            </div>
-
-            {/* Lungs Hotspot */}
-            <div className="absolute top-[155px] group pointer-events-auto">
-              <button
-                onClick={() => setSelectedSystem('lungs')}
-                className={`w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center ${
-                  selectedSystem === 'lungs' ? 'bg-blue-500 border-white scale-125 shadow-lg' : 'bg-blue-500/20 border-blue-400/60 hover:bg-blue-500/50'
-                }`}
-                style={{ boxShadow: selectedSystem === 'lungs' ? '0 0 12px #3b82f6' : '' }}
-              >
-                <span className={`absolute w-2.5 h-2.5 rounded-full bg-blue-400 ${selectedSystem === 'lungs' ? 'animate-ping' : ''}`} />
-              </button>
-              <div className="absolute left-8 -top-2 w-32 opacity-0 group-hover:opacity-100 transition-opacity bg-surface-2/90 backdrop-blur border border-line/50 p-2 rounded-lg pointer-events-none shadow-xl z-10">
-                <span className="text-[10px] font-bold text-blue-400 block">Respiratory</span>
-                <span className="text-[9px] text-muted block mt-0.5 leading-tight">Tracks oxygen saturation, respiratory rate, and energy synthesis.</span>
-              </div>
-            </div>
-
-            {/* Muscles Hotspot (Right Arm area) - fixed position */}
-            <div className="absolute top-[170px] left-[65%] group pointer-events-auto">
-              <button
-                onClick={() => setSelectedSystem('muscles')}
-                className={`w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center ${
-                  selectedSystem === 'muscles' ? 'bg-green-500 border-white scale-125 shadow-lg' : 'bg-green-500/20 border-green-400/60 hover:bg-green-500/50'
-                }`}
-                style={{ boxShadow: selectedSystem === 'muscles' ? '0 0 12px #10b981' : '' }}
-              >
-                <span className={`absolute w-2.5 h-2.5 rounded-full bg-green-400 ${selectedSystem === 'muscles' ? 'animate-ping' : ''}`} />
-              </button>
-              <div className="absolute right-8 -top-2 w-32 opacity-0 group-hover:opacity-100 transition-opacity bg-surface-2/90 backdrop-blur border border-line/50 p-2 rounded-lg pointer-events-none shadow-xl z-10 text-right">
-                <span className="text-[10px] font-bold text-green-400 block">Muscular System</span>
-                <span className="text-[9px] text-muted block mt-0.5 leading-tight">Reflects activity metrics, step volume, and active energy expenditure.</span>
-              </div>
+            {/* Hotspot dots: children of the figure box, anchored by left%/top% */}
+            <div className="absolute inset-0 pointer-events-none">
+              {systems.map((sys) => {
+                const pos = HOTSPOTS[sys.id as SystemId];
+                const active = selectedSystem === sys.id;
+                return (
+                  <div
+                    key={sys.id}
+                    className="group absolute pointer-events-auto"
+                    style={{ left: pos.left, top: pos.top, transform: 'translate(-50%, -50%)' }}
+                  >
+                    <button
+                      onClick={() => setSelectedSystem(sys.id as SystemId)}
+                      aria-label={sys.name}
+                      aria-pressed={active}
+                      className={`relative flex h-5 w-5 items-center justify-center rounded-full border-2 transition-transform ${active ? 'scale-125' : 'hover:scale-110'}`}
+                      style={{
+                        backgroundColor: active ? sys.color : `${sys.color}33`,
+                        borderColor: active ? '#ffffff' : `${sys.color}99`,
+                        boxShadow: active ? `0 0 14px ${sys.color}` : `0 0 6px ${sys.color}66`,
+                      }}
+                    >
+                      {/* pulse halo, child of the button so it never intercepts the click */}
+                      <span
+                        className={`absolute inline-flex h-full w-full rounded-full ${active ? 'animate-ping opacity-60' : 'animate-pulse opacity-25'}`}
+                        style={{ backgroundColor: sys.color }}
+                      />
+                      <span className="relative h-2 w-2 rounded-full" style={{ backgroundColor: active ? '#ffffff' : sys.color }} />
+                    </button>
+                    {/* tooltip opens vertically to avoid the card overflow-hidden clip */}
+                    <div
+                      className={`pointer-events-none absolute left-1/2 z-20 w-36 -translate-x-1/2 rounded-lg border border-line/50 bg-surface-2/90 p-2 text-center opacity-0 shadow-xl backdrop-blur transition-opacity group-hover:opacity-100 ${pos.tip === 'down' ? 'top-full mt-2' : 'bottom-full mb-2'}`}
+                    >
+                      <span className="block text-[10px] font-bold" style={{ color: sys.color }}>
+                        {sys.name.split(' (')[0]}
+                      </span>
+                      <span className="mt-0.5 block text-[9px] leading-tight text-muted">{TIP_COPY[sys.id as SystemId]}</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -189,6 +202,7 @@ export function BodySystems() {
               <button
                 key={sys.id}
                 onClick={() => setSelectedSystem(sys.id as SystemId)}
+                aria-pressed={selectedSystem === sys.id}
                 className={`py-2 px-3 rounded-xl border text-center font-medium transition-colors ${
                   selectedSystem === sys.id ? 'bg-surface-2 text-ink border-line' : 'bg-transparent text-muted border-transparent hover:text-ink'
                 }`}
@@ -230,9 +244,9 @@ export function BodySystems() {
               {/* Biomarkers Grid */}
               <div className="grid gap-3 grid-cols-2">
                 {currentSystem.metrics.map((metric) => (
-                  <div key={metric.label} className="p-4 rounded-2xl bg-surface-2/40 border border-line/35">
+                  <div key={metric.label} className="min-w-0 p-4 rounded-2xl bg-surface-2/40 border border-line/35">
                     <span className="text-[10px] text-faint uppercase tracking-wider block font-semibold">{metric.label}</span>
-                    <span className="text-xl font-bold text-ink mt-1 block font-grotesk">{metric.value}</span>
+                    <span className="text-xl font-bold text-ink mt-1 block font-grotesk truncate tabular-nums">{metric.value}</span>
                     <span className="text-[10px] text-muted mt-0.5 block">{metric.desc}</span>
                   </div>
                 ))}
