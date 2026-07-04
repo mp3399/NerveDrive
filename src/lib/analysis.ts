@@ -1,6 +1,6 @@
 /** Turns a Parsed export into a full AnalysisResult. Framework-free, worker-safe. */
 import type { Parsed } from './parse';
-import type { AnalysisResult, Profile, Status, Series } from '../types/health';
+import type { AnalysisResult, BiologicalAge, Profile, Status, Series } from '../types/health';
 import { mean, median, quantile, std, corr, longestStreak, clamp, dateRange } from './stats';
 
 const wallMs = (s: string) => Date.parse(s.slice(0, 19).replace(' ', 'T') + 'Z');
@@ -212,6 +212,14 @@ export function analyze(p: Parsed, profile: Profile): AnalysisResult {
   const meanSleep = totalArr.length ? mean(totalArr) : NaN;
   const population = buildPopulation(profile, { vo2, rhr: rhrMean, hrv: hrvMean, steps: medSteps, sleep: meanSleep, bmi });
 
+  // ---------- biological age (single source of truth for all consumers) ----------
+  const biologicalAge = estimateBiologicalAge(
+    profile,
+    { restingHrMean: rhrMean, hrvMean, vo2Latest: vo2 },
+    { meanSleepH: meanSleep },
+    { bmi },
+  );
+
   // ---------- scores ----------
   const weeklyEx = exVals.length ? mean(exVals) * 7 : 0;
   const scores = buildScores({
@@ -286,6 +294,7 @@ export function analyze(p: Parsed, profile: Profile): AnalysisResult {
   return {
     generatedAt: new Date().toISOString(),
     profile,
+    biologicalAge,
     dataQuality: {
       totalRecords: p.totalRecords,
       windowStart,
@@ -432,4 +441,86 @@ function buildScores(x: {
   s['Longevity'] = Math.round(mean(found));
   s['Overall Health'] = Math.round(mean(Object.values(s)));
   return s;
+}
+
+/**
+ * Estimates biological age using a multi-factor algorithm:
+ * VO2 Max, HRV, Resting HR, Sleep duration, and BMI.
+ *
+ * Returns:
+ *   - bioAge: the estimated biological age in years
+ *   - delta: how many years younger (negative) or older (positive) than chronological
+ *   - confidence: 'low' | 'medium' | 'high' based on how many factors were available
+ *   - factorsUsed: array of factor names used in the calculation
+ */
+export function estimateBiologicalAge(
+  profile: Profile,
+  cardio: { restingHrMean: number; hrvMean: number; vo2Latest: number },
+  sleep: { meanSleepH: number },
+  body: { bmi?: number },
+): BiologicalAge {
+  const age = profile.age || 30;
+  const male = profile.sex === 'male';
+  let delta = 0;
+  const factorsUsed: string[] = [];
+
+  // VO2 Max: strongest predictor. Age-sex reference norms (ACSM).
+  if (!isNaN(cardio.vo2Latest) && cardio.vo2Latest > 0) {
+    // Age-sex reference midpoint for a "typical" adult
+    const vo2Ref = male
+      ? Math.max(32, 52 - (age - 25) * 0.4)
+      : Math.max(28, 46 - (age - 25) * 0.35);
+    // Each 5 mL/kg/min above/below ref = approximately 1 year younger/older
+    const vo2Delta = ((cardio.vo2Latest - vo2Ref) / 5) * -1.0;
+    delta += clamp(vo2Delta, -4, 4);
+    factorsUsed.push('VO\u2082 Max');
+  }
+
+  // HRV: every 10ms above 50ms = 0.5 years younger
+  if (!isNaN(cardio.hrvMean) && cardio.hrvMean > 0) {
+    const hrvDelta = ((cardio.hrvMean - 50) / 10) * -0.5;
+    delta += clamp(hrvDelta, -2, 2);
+    factorsUsed.push('HRV');
+  }
+
+  // RHR: excellent < 60 = -1y, poor > 78 = +1.5y
+  if (!isNaN(cardio.restingHrMean) && cardio.restingHrMean > 0) {
+    const rhrDelta =
+      cardio.restingHrMean < 60 ? -1.0
+      : cardio.restingHrMean <= 68 ? -0.5
+      : cardio.restingHrMean <= 73 ? 0
+      : cardio.restingHrMean <= 78 ? 0.75
+      : 1.5;
+    delta += rhrDelta;
+    factorsUsed.push('Resting HR');
+  }
+
+  // Sleep: 7-9h optimal = 0 delta. Each 30min outside = +0.5y
+  if (!isNaN(sleep.meanSleepH) && sleep.meanSleepH > 0) {
+    const deviation = Math.max(0, Math.abs(sleep.meanSleepH - 8) - 0.5);
+    const sleepDelta = (deviation / 0.5) * 0.5;
+    delta += clamp(sleepDelta, 0, 2);
+    factorsUsed.push('Sleep Duration');
+  }
+
+  // BMI: Healthy (18.5-24.9) = -0.5y, Obese (>30) = +1.5y
+  if (body.bmi && !isNaN(body.bmi)) {
+    const bmiDelta =
+      body.bmi < 18.5 ? 0.5
+      : body.bmi < 25 ? -0.5
+      : body.bmi < 30 ? 0.5
+      : 1.5;
+    delta += bmiDelta;
+    factorsUsed.push('BMI');
+  }
+
+  // Clamp total delta to a physiologically defensible range
+  delta = clamp(delta, -8, 5);
+
+  const confidence: 'low' | 'medium' | 'high' =
+    factorsUsed.length >= 3 ? 'high' : factorsUsed.length === 2 ? 'medium' : 'low';
+
+  const bioAge = Math.max(18, Math.round((age + delta) * 10) / 10);
+
+  return { bioAge, delta: Math.round(delta * 10) / 10, confidence, factorsUsed };
 }

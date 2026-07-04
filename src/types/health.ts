@@ -146,6 +146,13 @@ export interface Profile {
   sex: 'male' | 'female';
 }
 
+export interface BiologicalAge {
+  bioAge: number;
+  delta: number;
+  confidence: 'low' | 'medium' | 'high';
+  factorsUsed: string[];
+}
+
 export interface AnalysisResult {
   generatedAt: string;
   profile: Profile;
@@ -161,6 +168,7 @@ export interface AnalysisResult {
   anomalies: Anomalies;
   population: PopulationRow[];
   scores: Scores;
+  biologicalAge: BiologicalAge;
   extras: Extras;
   series: Record<string, Series>;
   inventory: { type: string; short: string; count: number; confidence: Status }[];
