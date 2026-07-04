@@ -142,16 +142,3 @@ Contributions are welcome and appreciated. To maintain repository quality, pleas
 4. Commit your Changes (`git commit -m 'feat: add amazing feature'`).
 5. Push to the Branch (`git push origin feature/AmazingFeature`).
 6. Open a Pull Request.
-
----
-
-## 📄 License
-*Pending*
-
----
-
-## ⭐ Star History
-
-<a href="https://star-history.com/#mp3399/NerveDrive&Date">
-  <img src="https://api.star-history.com/svg?repos=mp3399/NerveDrive&type=Date" alt="NerveDrive Star History Chart" width="600" />
-</a>
