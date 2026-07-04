@@ -1,6 +1,6 @@
 /** Turns a Parsed export into a full AnalysisResult. Framework-free, worker-safe. */
 import type { Parsed } from './parse';
-import type { AnalysisResult, Profile, Status, Series } from '../types/health';
+import type { AnalysisResult, BiologicalAge, Profile, Status, Series } from '../types/health';
 import { mean, median, quantile, std, corr, longestStreak, clamp, dateRange } from './stats';
 
 const wallMs = (s: string) => Date.parse(s.slice(0, 19).replace(' ', 'T') + 'Z');
@@ -212,6 +212,14 @@ export function analyze(p: Parsed, profile: Profile): AnalysisResult {
   const meanSleep = totalArr.length ? mean(totalArr) : NaN;
   const population = buildPopulation(profile, { vo2, rhr: rhrMean, hrv: hrvMean, steps: medSteps, sleep: meanSleep, bmi });
 
+  // ---------- biological age (single source of truth for all consumers) ----------
+  const biologicalAge = estimateBiologicalAge(
+    profile,
+    { restingHrMean: rhrMean, hrvMean, vo2Latest: vo2 },
+    { meanSleepH: meanSleep },
+    { bmi },
+  );
+
   // ---------- scores ----------
   const weeklyEx = exVals.length ? mean(exVals) * 7 : 0;
   const scores = buildScores({
@@ -286,6 +294,7 @@ export function analyze(p: Parsed, profile: Profile): AnalysisResult {
   return {
     generatedAt: new Date().toISOString(),
     profile,
+    biologicalAge,
     dataQuality: {
       totalRecords: p.totalRecords,
       windowStart,
@@ -449,7 +458,7 @@ export function estimateBiologicalAge(
   cardio: { restingHrMean: number; hrvMean: number; vo2Latest: number },
   sleep: { meanSleepH: number },
   body: { bmi?: number },
-): { bioAge: number; delta: number; confidence: 'low' | 'medium' | 'high'; factorsUsed: string[] } {
+): BiologicalAge {
   const age = profile.age || 30;
   const male = profile.sex === 'male';
   let delta = 0;

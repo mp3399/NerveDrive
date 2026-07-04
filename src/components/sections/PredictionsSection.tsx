@@ -5,6 +5,8 @@ import { useStore } from '../../store/useStore';
 export function PredictionsSection() {
   const r = useStore((s) => s.result!);
   const baseAge = r.profile.age || 30;
+  // Single source of truth: the statistically derived biological age from analyze().
+  const currentBioAge = r.biologicalAge.bioAge;
 
   // Sliders State
   const [sleep, setSleep] = useState<number>(r.sleep?.meanSleepH || 7.0);
@@ -22,8 +24,10 @@ export function PredictionsSection() {
   // Dynamic model based on correlated variables
   const projectedBioAge = Math.max(
     18,
-    baseAge - 4.2 - (sleepDelta * 0.6) - (workoutsDelta * 0.45) + (alcoholDelta * 0.35) + (weightChange * 0.15) - (proteinDelta * 0.5)
+    currentBioAge - (sleepDelta * 0.6) - (workoutsDelta * 0.45) + (alcoholDelta * 0.35) + (weightChange * 0.15) - (proteinDelta * 0.5)
   );
+  // Positive shift means the projected bio age is lower than current (an improvement).
+  const bioAgeShift = currentBioAge - projectedBioAge;
 
   const projectedRecovery = Math.min(
     100,
@@ -199,10 +203,10 @@ export function PredictionsSection() {
                 <span className="text-[10px] text-faint uppercase font-semibold">Biological Age</span>
                 <div className="text-2xl font-grotesk font-bold text-ink mt-1.5">{projectedBioAge.toFixed(1)}y</div>
                 <div className="mt-2 text-[10px] text-muted">
-                  Current State: <span className="text-ink font-semibold">{(baseAge - 4.2).toFixed(1)}y</span>
+                  Current State: <span className="text-ink font-semibold">{currentBioAge.toFixed(1)}y</span>
                 </div>
                 <span className="text-[10px] text-accent font-semibold block mt-0.5">
-                  {(baseAge - 4.2 - projectedBioAge) > 0 ? `-${(baseAge - 4.2 - projectedBioAge).toFixed(1)}y improvement` : `+${(projectedBioAge - (baseAge - 4.2)).toFixed(1)}y degradation`}
+                  {bioAgeShift > 0.05 ? `-${bioAgeShift.toFixed(1)}y improvement` : bioAgeShift < -0.05 ? `+${(-bioAgeShift).toFixed(1)}y degradation` : 'No change'}
                 </span>
               </div>
 

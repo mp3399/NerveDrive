@@ -6,7 +6,6 @@ import {
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { DotMatrixNumber } from '../ui/DotMatrixNumber';
-import { estimateBiologicalAge } from '../../lib/analysis';
 
 // ---- helpers ----
 const fmt1 = (n: number) => isNaN(n) ? '--' : n.toFixed(1);
@@ -398,10 +397,7 @@ export function Overview() {
   const overallScore = r.scores['Overall Health'] ?? 0;
   const scoreMt = scoreMeta(overallScore);
 
-  const bioAgeResult = useMemo(
-    () => estimateBiologicalAge(r.profile, r.cardio, r.sleep, r.body),
-    [r],
-  );
+  const bioAgeResult = r.biologicalAge;
 
   const insights = useMemo(() => buildInsights(r), [r]);
   const supplements = useMemo(() => getSupplements(r), [r]);
