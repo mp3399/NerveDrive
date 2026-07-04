@@ -26,10 +26,7 @@ interface State {
   reset: () => void;
 }
 
-const preferredTheme = (): Theme =>
-  typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: light)').matches
-    ? 'light'
-    : 'dark';
+const preferredTheme = (): Theme => 'light';
 
 export const useStore = create<State>((set) => ({
   phase: 'idle',

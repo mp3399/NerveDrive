@@ -1,37 +1,73 @@
-# Contributing
+# Contributing to NerveDrive
 
-Thanks for helping improve VitalScope!
+Welcome! Thank you for your interest in contributing to **NerveDrive**. This document outlines our open source philosophy, coding standards, and how you can get involved.
 
-## Setup
+## Introduction
+NerveDrive is designed to provide a premium, private, and cohesive experience for analyzing Apple Health data natively in the browser. Our core goals are:
+- **Zero-knowledge Privacy:** Data never leaves the device.
+- **Premium Aesthetics:** Beautiful, calm, and performant UI.
+- **Scientific Rigor:** Health insights must be backed by accurate correlation math and deep telemetry tracking.
 
-```bash
-npm install
-npm run dev
-```
+## Local Development
 
-Node 22 is recommended (`.nvmrc`).
+### Prerequisites
+- Node.js (v20+)
+- npm
 
-## Scripts
+### Setup
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/mp3399/NerveDrive.git
+   cd NerveDrive
+   ```
 
-- `npm run dev` — dev server with HMR
-- `npm run build` — type-check + production build
-- `npm run preview` — serve the build
-- `npm run lint` — ESLint
-- `npm run format` — Prettier
-- `npm test` — unit tests (Vitest)
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Ground rules
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-1. **Never add anything that transmits health data or file contents off-device.** This is the project's reason to exist.
-2. Keep the **analysis engine** (`src/lib/`) framework-free and pure so it stays testable.
-3. New metrics: add the HealthKit identifier to `TYPE_MAP` in `parse.ts`, accumulate it, then surface it in `analysis.ts` and a section.
-4. UI follows the existing design tokens (`src/index.css`, `tailwind.config.ts`). Prefer the `ui/` primitives.
-5. Run `npm run lint` and `npm run build` before opening a PR.
+### Scripts
+- `npm run dev` - Starts the Vite dev server.
+- `npm run build` - Builds for production.
+- `npm run lint` - Lints code with ESLint.
+- `npm run typecheck` - Validates TypeScript definitions.
+- `npm run test` - Runs Vitest suites.
 
-## Commit style
+## Coding Standards
+We treat NerveDrive as a flagship product. Please adhere to the following guidelines:
+- **Clean Architecture:** Keep components modular and single-responsibility.
+- **Type Safety:** Strict TypeScript must be used. Avoid `any`.
+- **Styling:** Use Tailwind CSS utility classes. Maintain the design system defined in `theme.ts` and `index.css`.
+- **Aesthetics First:** We default to **Light Mode**. Ensure your contributions look flawless in both Light and Dark themes.
+- **Performance:** For heavy data operations, utilize the Web Worker (`parser.worker.ts`) to avoid main-thread blocking.
+- **Comments:** Comment only when necessary to explain *why* something is done, not *what* is done.
 
-Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`).
+## Pull Request Guidelines
+1. **Branching:** Create feature branches off `master` (e.g., `feature/new-health-metric` or `bugfix/chart-rendering`).
+2. **Commit Messages:** Keep commits focused, atomized, and write meaningful messages.
+3. **CI Checks:** Ensure your branch passes all GitHub Action checks (linting, typechecking, build).
+4. **Approval:** Pull Requests require at least 1 approval before they can be merged. Direct pushes to `master` are blocked.
+5. **Documentation:** If you add a feature, update the `README.md` and inline comments where necessary.
 
-## Adding a data provider
+## Issue Reporting
+If you spot a bug or have a feature idea, please use the GitHub Issues tab.
+- **Bug Reports:** Include steps to reproduce, browser version, and console logs.
+- **Feature Requests:** Outline the use-case and why it benefits the wider NerveDrive community.
+- **UI Improvements:** Please attach screenshots or mockups of your proposed changes!
 
-Implement a parser that emits the same `Parsed` shape as `parse.ts`, then the entire analysis + UI stack works unchanged. See `ROADMAP.md`.
+## Code of Conduct
+We are building a welcoming community. Please:
+- Practice respectful and constructive communication.
+- Focus on evidence-based health and engineering discussions.
+- Be inclusive and collaborative. 
+
+## Community Contact
+If you'd like to discuss the architecture, collaborate on health analytics research, or pitch major ideas, I'd love to chat!
+
+Please reach out to me via X (Twitter):
+**[https://x.com/_mp3399](https://x.com/_mp3399)**
