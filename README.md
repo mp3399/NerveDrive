@@ -1,10 +1,15 @@
-# 🧠 NerveDrive
-> Private, in-browser Apple Health and Android Health Connect analytics dashboard.
+<div align="center">
+  <img src="public/logo.svg" width="96" height="96" alt="NerveDrive Logo" />
+  <h1>NerveDrive</h1>
+  <p>Private, in-browser Apple Health and Android Health Connect telemetry intelligence dashboard.</p>
 
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+  [![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+  [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=flat-square&logo=vite&logoColor=FFD62E)](https://vitejs.dev)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+</div>
+
+---
 
 NerveDrive is a flagship health telemetry dashboard designed to provide a cohesive, premium, and private experience for analyzing your mobile health data. 
 
@@ -22,8 +27,8 @@ NerveDrive is a flagship health telemetry dashboard designed to provide a cohesi
 - **AI Coach**: Actionable, ROI-ranked physiological recommendations based on your unique data deviations.
 
 ### In Development
-- **Continuous Glucose Monitor (CGM) Data**: Parsers for Abbott Freestyle Libre and Dexcom continuous glucose telemetry.
-- **Advanced Export System**: High-resolution, doctor-shareable PDF exports of your core dashboard widgets.
+- **Continuous Glucose Ingestion**: Parsers for Abbott Freestyle Libre and Dexcom continuous glucose telemetry.
+- **Advanced Export System**: High-resolution, doctor-shareable PDF reports of your core dashboard widgets.
 
 ---
 
@@ -44,8 +49,8 @@ NerveDrive is a flagship health telemetry dashboard designed to provide a cohesi
 - **Build Tool**: Vite
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS & Framer Motion
-- **Data Processing**: sql.js (WebAssembly) & papaparse (Web Workers)
-- **Visualization**: Apache ECharts
+- **Data Ingestion**: sql.js (WebAssembly) & papaparse (Web Workers)
+- **Data Visualization**: Apache ECharts
 
 ---
 
@@ -85,42 +90,44 @@ This compiles TypeScript and bundles the assets via Vite into the `dist/` direct
 
 ---
 
-## 🗺 Roadmap
+## 🗺 Production Roadmap
 
 NerveDrive is actively evolving. Our roadmap is organized into logical phases to ensure a stable, mature product lifecycle.
 
 ### Phase 1: Foundation (Completed)
-- Apple Health `.zip` parsing and full baseline analysis.
-- Interactive dashboard UI with premium dark mode.
-- Export mechanism validation.
+- Apple Health `.zip` parsing and baseline analysis.
+- Dashboard UI with theme selection.
+- Basic export capabilities.
 
-### Phase 2: Core Analytics
+### Phase 2: Analytics (In Progress)
 - Period-over-period biometric comparison.
 - ECG waveform viewer integration.
 - GPX workout-route maps.
 
-### Phase 3: Advanced Biomarker Intelligence
+### Phase 3: Health Intelligence (Planned)
 - Saved snapshots via `localStorage` (opt-in, strictly on-device).
 - Comprehensive Vitest coverage for the analysis engine.
 - Route-level code splitting for visualization libraries.
 
-### Phase 4: AI Insights
+### Phase 4: AI Predictions (Planned)
 - On-device WebGPU Local LLM summary for a natural language narrative.
 - Dynamic health scoring algorithms based on longevity studies.
 
-### Phase 5: Clinical Reporting
+### Phase 5: Android Support (Planned)
+- Built-in backup schema parsers for Health Connect.
+- Direct database loading improvements.
+
+### Phase 6: Medical Export (Planned)
 - Standardized, doctor-shareable one-page PDF generation.
 - Automated biomarker flagging for clinical review.
 
-### Phase 6: Wearable Integrations
-- Direct support for Garmin Connect.
-- Direct support for Fitbit.
-- Direct support for WHOOP and Oura.
-- Polar and Strava data ingestion.
+### Phase 7: Research Dashboard (Research)
+- Cohort analysis models.
+- Integration with academic health study schemas.
 
-### Phase 7: Health Intelligence Platform
-- Multi-profile family dashboard.
-- Progressive Web App (PWA) offline installation.
+### Phase 8: Developer SDK (Future)
+- Plugin system for custom telemetry formats.
+- API specifications for private local integrations.
 
 ---
 
