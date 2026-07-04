@@ -178,7 +178,7 @@ export function Landing() {
                 ))}
               </div>
             ) : (
-              <div className="animate-in fade-in zoom-in-95 duration-200 bg-surface/50 rounded-2xl p-5 border border-white/5 space-y-6">
+              <div className="animate-in fade-in zoom-in-95 duration-200 space-y-6 p-2">
                 <div>
                   <h5 className="font-grotesk text-base font-semibold text-ink mb-2">Method 1: Built-In Android Backup (Recommended)</h5>
                   <ol className="list-decimal list-inside text-sm text-muted space-y-1.5 ml-2">

@@ -1,44 +1,75 @@
-# Global Writing Guardrail: Zero Em Dashes
+# NerveDrive Repository Governance and Development Rules
 
-From this point forward, the **em dash (`—`) is strictly prohibited** throughout the entire NerveDrive project and any related assets.
+## 1. Global Punctuation Guardrail: Zero Em Dashes
+The **em dash (`—`) is strictly prohibited** throughout the entire NerveDrive project and any related assets. This is a non-negotiable rule and must be enforced consistently across all files, code comments, documentation, UI copy, commit messages, and PR summaries.
 
-This is a non-negotiable rule and must be enforced consistently across all existing content, future content, generated files, documentation, UI copy, marketing material, commit messages, and code comments.
+### Absolute Rule
+- **Never generate or use the Unicode em dash (`—`) anywhere.**
+- Avoid automatically inserting the en dash (`–`) unless it is required for a legitimate numeric range (for example: `7-10 days` should use a standard hyphen).
+- When writing, always use one of the following instead:
+  - Standard hyphen (`-`)
+  - Colon (`:`)
+  - Comma (`,`)
+  - Parentheses (`()`)
+  - Period (`.`)
+  - Semicolon (`;`)
+  - Rewrite the sentence entirely if needed.
 
-## Absolute Rule
-**Never generate or use the Unicode em dash (`—`) anywhere.**
+---
 
-Likewise, avoid automatically inserting the en dash (`–`) unless it is required for a legitimate numeric range (for example, `7-10 days` should use a standard hyphen unless typography specifically requires otherwise).
+## 2. Safe Branching and Development Workflow
+No code modifications may be committed directly to `master`. All development must follow this strict branch and PR workflow.
 
-When writing naturally, always use one of the following instead:
-- Standard hyphen (`-`)
-- Colon (`:`)
-- Comma (`,`)
-- Parentheses (`()`)
-- Period (`.`)
-- Semicolon (`;`)
-- Rewrite the sentence entirely if needed.
+### Workflow Steps
+1. **Checkout a Feature Branch:** Always check out a branch from the latest `master` (e.g.: `git checkout -b feature/your-feature-name`).
+2. **Implement Changes:** Write clean, modular, and maintainable code inside the feature branch.
+3. **Local Testing:** Test functionality, build completeness, and regression impacts.
+4. **Compile and Build:** Run production compilation checks locally.
+5. **Pull Request Submission:** Create a Pull Request against `master` via GitHub CLI or Web UI.
+6. **Human Approval:** Wait for explicit administrator review and approval.
+7. **Merge:** Squash and merge the approved PR into `master`.
 
-## Writing Philosophy
-The project should read like professionally written American English.
-The writing should feel:
-- Clean
-- Minimal
-- Modern
-- Premium
-- Human
+---
 
-It should never look like AI-generated typography. Avoid punctuation habits commonly associated with LLM-generated text, especially excessive em dash usage.
+## 3. Mandatory Testing Standards
+Before submitting any Pull Request, you must verify the changes against the following tests.
 
-## Quality Control Checklist
-Before generating any content, silently verify:
-- No em dashes (`—`) exist.
-- No unnecessary en dashes (`–`) exist.
-- If any em dash is detected, rewrite the sentence before presenting the output.
+### Functional Testing
+Verify that:
+- Ingestion flows accept health files correctly.
+- Telemetry parsers process data without data loss.
+- Core analytics algorithms run properly.
+- All visualization charts render smoothly.
+- User layouts respond correctly on Mobile, Tablet, and Desktop resolutions.
+- Theme switching works seamlessly (Light and Dark modes).
 
-**Zero tolerance. Zero exceptions.**
+### Regression Testing
+Validate that new features do not negatively impact:
+- Existing ZIP upload flows.
+- The Interactive Body Systems Map rendering.
+- AI Prediction Center calculations.
+- Local storage or on-device privacy mechanisms.
 
-## Safe Branching Rule
-**Agents must NEVER commit directly to `master`.**
-Before making any code changes, agents must always checkout a new latest branch from `master`.
-Example: `git checkout -b feature/your-feature-name`
-All changes must be done on this feature branch.
+### Build and Compilation Testing
+Run the following build checks:
+- Verify there are no TypeScript compiler errors.
+- Ensure Vite compilation builds without critical warnings.
+- Confirm there are no console errors or warnings in the browser.
+
+---
+
+## 4. Git Identity and Privacy Protection
+All commits in this repository must belong exclusively to **mp3399**.
+
+### Strict Constraints
+- No work-related GitHub identities (such as `mihir-pambhar-genea`) or work-related emails may author any commit.
+- Before committing, verify git configuration settings locally using `git config user.name` and `git config user.email`.
+
+---
+
+## 5. Logo and Animation Guidelines
+The NerveDrive logo represents the neural, cardiovascular, and respiratory pathways. Any branding asset must align with these criteria:
+
+- **Style:** Minimal, premium, and clinical.
+- **Animation:** Neural activity should be represented by a subtle heartbeat pulse or synaptic wave animation. The animation must be elegant and non-distracting.
+- **SVG Standards:** Animation keys must be self-contained within `<style>` blocks in the SVG code to ensure portability across landing pages, dashboards, and GitHub README files.
