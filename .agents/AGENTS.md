@@ -36,3 +36,9 @@ Before generating any content, silently verify:
 - If any em dash is detected, rewrite the sentence before presenting the output.
 
 **Zero tolerance. Zero exceptions.**
+
+## Safe Branching Rule
+**Agents must NEVER commit directly to `master`.**
+Before making any code changes, agents must always checkout a new latest branch from `master`.
+Example: `git checkout -b feature/your-feature-name`
+All changes must be done on this feature branch.
