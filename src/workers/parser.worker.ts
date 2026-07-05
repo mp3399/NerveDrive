@@ -362,6 +362,62 @@ async function parseSQLiteDb(
     }
   }
 
+  // 8b. Resting Heart Rate Table (drives cardio scoring + biological age; Apple parses this too)
+  if (tableExists('resting_heart_rate_record_table')) {
+    postProgress('Reading resting heart rate', 86);
+    const res = db.exec(`
+      SELECT
+        strftime('%Y-%m-%d', datetime((time + zone_offset * 1000) / 1000, 'unixepoch')) as day,
+        beats_per_minute as val
+      FROM resting_heart_rate_record_table
+      ORDER BY time ASC;
+    `);
+    if (res.length > 0) {
+      res[0].values.forEach(([day, val]) => {
+        if (day && val != null) {
+          parsed.restingHr.push({ d: String(day), v: Number(val) });
+          parsed.totalRecords++;
+          parsed.counts['HKQuantityTypeIdentifierRestingHeartRate'] = (parsed.counts['HKQuantityTypeIdentifierRestingHeartRate'] ?? 0) + 1;
+        }
+      });
+    }
+  }
+
+  // 8c. Respiratory Rate Table (breaths/min, same unit as Apple; aggregated running mean)
+  if (tableExists('respiratory_rate_record_table')) {
+    postProgress('Reading respiratory rate', 87);
+    const res = db.exec(`SELECT rate as val FROM respiratory_rate_record_table;`);
+    if (res.length > 0) {
+      res[0].values.forEach(([val]) => {
+        if (val != null) {
+          parsed.respSum += Number(val);
+          parsed.respCnt++;
+          parsed.totalRecords++;
+          parsed.counts['HKQuantityTypeIdentifierRespiratoryRate'] = (parsed.counts['HKQuantityTypeIdentifierRespiratoryRate'] ?? 0) + 1;
+        }
+      });
+    }
+  }
+
+  // 8d. Oxygen Saturation Table (Health Connect stores 0-100; the app expects a 0-1 fraction)
+  if (tableExists('oxygen_saturation_record_table')) {
+    postProgress('Reading oxygen saturation', 88);
+    const res = db.exec(`SELECT percentage as val FROM oxygen_saturation_record_table;`);
+    if (res.length > 0) {
+      res[0].values.forEach(([val]) => {
+        if (val != null) {
+          const frac = Number(val) / 100;
+          if (frac <= 0 || frac > 1) return; // ignore malformed rows
+          parsed.spo2Sum += frac;
+          parsed.spo2Cnt++;
+          if (frac < 0.95) parsed.spo2Under95++;
+          parsed.totalRecords++;
+          parsed.counts['HKQuantityTypeIdentifierOxygenSaturation'] = (parsed.counts['HKQuantityTypeIdentifierOxygenSaturation'] ?? 0) + 1;
+        }
+      });
+    }
+  }
+
   // 9. Workouts
   if (tableExists('exercise_session_record_table')) {
     postProgress('Reading exercise sessions', 88);

@@ -36,7 +36,7 @@ export function BodySystems() {
       name: 'Brain (Sleep & Stress)',
       icon: Brain,
       color: '#a855f7', // purple
-      score: r.scores['Sleep'] || 72,
+      score: r.scores['Sleep'],
       metrics: [
         { label: 'Sleep Efficiency', value: `${Math.round(s.meanEff)}%`, desc: 'Target > 85%' },
         { label: 'Nocturnal Duration', value: `${n1(s.meanSleepH)}h`, desc: 'Average sleep time' },
@@ -55,7 +55,7 @@ export function BodySystems() {
       name: 'Heart (Cardiovascular)',
       icon: Heart,
       color: '#ef4444', // red
-      score: r.scores['Cardio Fitness'] || 70,
+      score: r.scores['Cardio Fitness'],
       metrics: [
         { label: 'Resting Heart Rate', value: `${n0(c.restingHrMean)} bpm`, desc: `Baseline ${n0(c.restingHrFirst)} → ${n0(c.restingHrLast)}` },
         { label: 'Heart Rate Variability', value: `${n0(c.hrvMean)} ms`, desc: 'Autonomic nervous resilience' },
@@ -74,12 +74,12 @@ export function BodySystems() {
       name: 'Lungs (Respiratory & Metabolic)',
       icon: Wind,
       color: '#3b82f6', // blue
-      score: r.scores['Stress Resilience'] || 68,
+      score: r.scores['Stress Resilience'],
       metrics: [
-        { label: 'Respiratory Rate', value: r.extras.respRate ? `${n1(r.extras.respRate.mean)} rpm` : '14.5 rpm', desc: 'Nocturnal respiration cycles' },
+        { label: 'Respiratory Rate', value: r.extras.respRate ? `${n1(r.extras.respRate.mean)} rpm` : '--', desc: 'Nocturnal respiration cycles' },
         { label: 'Basal Energy', value: `${n0(r.metabolic.meanBasalKcal)} kcal`, desc: 'Base metabolic rate' },
         { label: 'Daily TDEE', value: `${n0(r.metabolic.meanTdee)} kcal`, desc: 'Total energy expenditure' },
-        { label: 'Oxygen Saturation', value: r.extras.spo2 ? `${n1(r.extras.spo2.mean)}%` : '97.5%', desc: 'Oxygen transportation capacity' },
+        { label: 'Oxygen Saturation', value: r.extras.spo2 ? `${n1(r.extras.spo2.mean)}%` : '--', desc: 'Oxygen transportation capacity' },
       ],
       description: 'Respiratory efficiency and metabolic rate. Oxygenation levels control energy synthesis and tissue regeneration.',
       contributors: ['Respiration capacity', 'Hemoglobin binding efficiency', 'Aerobic thresholds'],
@@ -93,7 +93,7 @@ export function BodySystems() {
       name: 'Muscles (Activity & Fitness)',
       icon: Dumbbell,
       color: '#10b981', // green
-      score: r.scores['Activity'] || 75,
+      score: r.scores['Activity'],
       metrics: [
         { label: 'Daily Step Median', value: n0(a.stepsMedian), desc: `${Math.round(a.pctDaysOver10k)}% of days ≥10k steps` },
         { label: 'Active Energy', value: `${n0(a.activeEnergyMean)} kcal`, desc: 'Average active daily burn' },
@@ -237,7 +237,7 @@ export function BodySystems() {
                 </div>
                 <div className="text-right">
                   <div className="text-xs text-faint uppercase font-semibold">Functional Score</div>
-                  <div className="text-2xl font-grotesk font-bold text-ink">{currentSystem.score}<span className="text-xs text-muted font-normal">/100</span></div>
+                  <div className="text-2xl font-grotesk font-bold text-ink">{Number.isFinite(currentSystem.score) ? currentSystem.score : '--'}<span className="text-xs text-muted font-normal">/100</span></div>
                 </div>
               </div>
 
@@ -274,7 +274,7 @@ export function BodySystems() {
                   <span className="text-xs uppercase tracking-widest text-faint font-semibold block mb-2">Scientific Outlook</span>
                   <div className="flex items-start gap-2 bg-accent/5 border border-accent/20 p-2.5 rounded-xl text-xs text-accent">
                     <TrendingUp size={14} className="shrink-0 mt-0.5" />
-                    <span>Target adjustments here lead to {currentSystem.id === 'heart' ? '6.4% higher recovery baseline' : 'improved mitochondrial respiration'}.</span>
+                    <span>Consistent improvements to this system support a stronger recovery baseline over time.</span>
                   </div>
                 </div>
               </div>
