@@ -148,5 +148,5 @@ Contributions are welcome and appreciated. To maintain repository quality, pleas
 ## Star History
 
 <a href="https://star-history.com/#mp3399/NerveDrive&Date">
-  <img src="https://api.star-history.com/svg?repos=mp3399/NerveDrive&type=Date" alt="NerveDrive Star History Chart" width="600" />
+  <img src="./star-history.svg" alt="NerveDrive Star History Chart" width="600" />
 </a>
