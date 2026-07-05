@@ -1,4 +1,4 @@
-/** Core domain types for VitalScope. */
+/** Core domain types for NerveDrive. */
 
 export type Status = 'good' | 'warn' | 'bad' | 'neutral';
 

@@ -394,8 +394,8 @@ export function Overview() {
   const r = useStore((s) => s.result!);
   const [selectedInsight, setSelectedInsight] = useState<number | null>(null);
 
-  const overallScore = r.scores['Overall Health'] ?? 0;
-  const scoreMt = scoreMeta(overallScore);
+  const overallScore = r.scores['Overall Health'];
+  const hasOverall = Number.isFinite(overallScore);
 
   const bioAgeResult = r.biologicalAge;
 
@@ -411,6 +411,13 @@ export function Overview() {
     { key: 'Consistency', label: 'Consistency', color: '#f59e0b' },
     { key: 'Stress Resilience', label: 'Stress', color: '#ec4899' },
   ];
+
+  // Honest hero badge: a NaN Overall Health means no complete score. Show "Partial Data" when some
+  // pillars are present so the badge does not contradict the sub-bars, and "No Data" when none are.
+  const anyPillar = subScores.some((s) => Number.isFinite(r.scores[s.key]));
+  const scoreMt = hasOverall
+    ? scoreMeta(overallScore)
+    : { label: anyPillar ? 'Partial Data' : 'No Data', color: 'rgb(var(--muted))', badgeClass: 'text-muted bg-surface-2 border-line/30' };
 
   // ---- Daily Vitals data ----
   const rhrVal = hasData(r.cardio.restingHrMean) ? Math.round(r.cardio.restingHrMean) : null;
@@ -466,15 +473,15 @@ export function Overview() {
           {/* Score with radial arc */}
           <div className="mt-4 flex items-center gap-4">
             <div className="relative shrink-0">
-              <RadialArc score={overallScore} size={88} />
+              <RadialArc score={hasOverall ? overallScore : 0} size={88} />
               <div className="absolute inset-0 flex items-center justify-center">
-                <DotMatrixNumber value={String(overallScore)} size={5} gap={2} color="rgb(var(--accent))" />
+                <DotMatrixNumber value={hasOverall ? String(overallScore) : '--'} size={5} gap={2} color="rgb(var(--accent))" />
               </div>
             </div>
             <div className="min-w-0">
               <div className="font-grotesk text-xl font-bold text-ink leading-tight">{scoreMt.label}</div>
               <p className="text-[10px] text-muted mt-1 leading-relaxed">
-                Based on {Object.keys(r.scores).length - 1} health pillars
+                Based on {subScores.filter((s) => Number.isFinite(r.scores[s.key])).length} health pillars
               </p>
             </div>
           </div>
@@ -482,7 +489,9 @@ export function Overview() {
           {/* Mini sub-score progress bars */}
           <div className="mt-5 space-y-2">
             {subScores.map((s) => {
-              const val = r.scores[s.key] ?? 0;
+              const raw = r.scores[s.key];
+              const has = Number.isFinite(raw);
+              const val = has ? raw : 0;
               return (
                 <div key={s.key} className="flex items-center gap-2">
                   <span className="w-16 text-[9px] uppercase tracking-wider text-faint truncate">{s.label}</span>
@@ -495,7 +504,7 @@ export function Overview() {
                       transition={{ duration: 0.9, delay: 0.4 }}
                     />
                   </div>
-                  <span className="w-6 text-[9px] text-right text-muted">{val}</span>
+                  <span className="w-6 text-[9px] text-right text-muted">{has ? val : '--'}</span>
                 </div>
               );
             })}

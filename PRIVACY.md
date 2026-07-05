@@ -1,6 +1,6 @@
 # Privacy
 
-VitalScope is built so that your health data **physically cannot** reach us. This is enforced by architecture, not by a promise.
+NerveDrive is built so that your health data **physically cannot** reach us. This is enforced by architecture, not by a promise.
 
 ## What happens to my data?
 

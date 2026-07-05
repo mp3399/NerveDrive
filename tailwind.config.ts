@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * VitalScope design tokens, distilled from the reference design language:
+ * NerveDrive design tokens, distilled from the reference design language:
  * near-black + off-white dual themes, single-accent status system,
  * large radii, frosted glass, thin grotesk numerals.
  * All colors are CSS variables (see src/index.css) so themes swap at runtime.
@@ -43,6 +43,7 @@ export default {
       animation: {
         'fade-up': 'fade-up 0.5s cubic-bezier(0.22,1,0.36,1) both',
         shimmer: 'shimmer 1.6s infinite',
+        'pulse-soft': 'pulse-soft 2.5s ease-in-out infinite',
       },
     },
   },
