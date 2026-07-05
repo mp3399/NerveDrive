@@ -7,6 +7,8 @@ export function PredictionsSection() {
   const baseAge = r.profile.age || 30;
   // Single source of truth: the statistically derived biological age from analyze().
   const currentBioAge = r.biologicalAge.bioAge;
+  // Real recovery baseline (the Sleep pillar score); NaN when there is no sleep data, guarded on display.
+  const sleepScore = Number.isFinite(r.scores['Sleep']) ? r.scores['Sleep'] : NaN;
 
   // Sliders State
   const [sleep, setSleep] = useState<number>(r.sleep?.meanSleepH || 7.0);
@@ -16,7 +18,7 @@ export function PredictionsSection() {
   const [protein, setProtein] = useState<number>(1.2); // g/kg
 
   // Projections calculations
-  const sleepDelta = sleep - (r.sleep?.meanSleepH || 6.5);
+  const sleepDelta = sleep - (r.sleep?.meanSleepH || 7.0);
   const workoutsDelta = workouts - 2; 
   const alcoholDelta = alcohol - 3; 
   const proteinDelta = protein - 1.0;
@@ -33,7 +35,7 @@ export function PredictionsSection() {
     100,
     Math.max(
       30,
-      (r.scores['Sleep'] || 72) + (sleepDelta * 8.5) + (workoutsDelta * 2.5) - (alcoholDelta * 5) - (weightChange * 0.5)
+      sleepScore + (sleepDelta * 8.5) + (workoutsDelta * 2.5) - (alcoholDelta * 5) - (weightChange * 0.5)
     )
   );
 
@@ -94,7 +96,7 @@ export function PredictionsSection() {
                 onChange={(e) => setSleep(parseFloat(e.target.value))}
                 className="w-full h-1 bg-line rounded-lg appearance-none cursor-pointer accent-accent"
               />
-              <span className="text-[10px] text-muted block">Baseline: {(r.sleep?.meanSleepH || 6.5).toFixed(1)}h | Impacts HRV & Cortisol</span>
+              <span className="text-[10px] text-muted block">Baseline: {(r.sleep?.meanSleepH || 7.0).toFixed(1)}h | Impacts HRV & Cortisol</span>
             </div>
 
             {/* Workouts Slider */}
@@ -213,9 +215,9 @@ export function PredictionsSection() {
               {/* Recovery Score */}
               <div className="p-4 rounded-2xl bg-surface-2/30 border border-line/30">
                 <span className="text-[10px] text-faint uppercase font-semibold">Recovery Index</span>
-                <div className="text-2xl font-grotesk font-bold text-ink mt-1.5">{Math.round(projectedRecovery)}<span className="text-xs text-muted font-normal">/100</span></div>
+                <div className="text-2xl font-grotesk font-bold text-ink mt-1.5">{Number.isFinite(projectedRecovery) ? Math.round(projectedRecovery) : '--'}<span className="text-xs text-muted font-normal">/100</span></div>
                 <div className="mt-2 text-[10px] text-muted">
-                  Current State: <span className="text-ink font-semibold">{r.scores['Sleep'] || 72}</span>
+                  Current State: <span className="text-ink font-semibold">{Number.isFinite(sleepScore) ? sleepScore : '--'}</span>
                 </div>
               </div>
 
@@ -224,7 +226,7 @@ export function PredictionsSection() {
                 <span className="text-[10px] text-faint uppercase font-semibold">Heart Age</span>
                 <div className="text-2xl font-grotesk font-bold text-ink mt-1.5">{projectedHeartAge.toFixed(1)}y</div>
                 <div className="mt-2 text-[10px] text-muted">
-                  Current State: <span className="text-ink font-semibold">{(baseAge - 1.5).toFixed(1)}y</span>
+                  Projected estimate from your workout and sleep inputs.
                 </div>
               </div>
             </div>
@@ -258,7 +260,7 @@ export function PredictionsSection() {
                 <div className="bg-bad/5 border border-bad/20 p-3 rounded-xl flex items-start gap-2">
                   <AlertTriangle size={14} className="text-bad shrink-0 mt-0.5" />
                   <span className="text-[10px] text-bad leading-relaxed">
-                    {confidenceScore < 80 ? "Confidence is lowered due to extreme variable deviation. Results may not scale linearly at this extreme." : "High confidence based on 45,000+ historical user cohorts with identical baselines."}
+                    {confidenceScore < 80 ? "Confidence is lowered because these inputs deviate far from your recorded baseline; the linear model is less reliable at this extreme." : "Your inputs are close to your recorded baseline, so this projection is more reliable. It remains a directional estimate, not a guarantee."}
                   </span>
                 </div>
               </div>
