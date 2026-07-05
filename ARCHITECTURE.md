@@ -1,6 +1,6 @@
 # Architecture
 
-This document explains how VitalScope is built and why. It doubles as the design rationale requested for a production-grade, open-source project.
+This document explains how NerveDrive is built and why. It doubles as the design rationale requested for a production-grade, open-source project.
 
 ## 1. Design principles
 
@@ -33,7 +33,7 @@ Progress messages stream back throughout so the UI can render a live, staged pro
 ## 3. Folder structure
 
 ```
-vitalscope/
+nervedrive/
 ├── .github/                 # CI, deploy, issue/PR templates, dependabot
 ├── public/                  # favicon and static assets
 ├── src/

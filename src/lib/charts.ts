@@ -10,7 +10,7 @@ const toolbox = (): any => ({
     feature: {
       dataZoom: { yAxisIndex: 'none', title: { zoom: 'Zoom', back: 'Reset zoom' } },
       restore: { title: 'Restore' },
-      saveAsImage: { title: 'PNG', pixelRatio: 2, name: 'vitalscope-chart' },
+      saveAsImage: { title: 'PNG', pixelRatio: 2, name: 'nervedrive-chart' },
     },
     iconStyle: { borderColor: chartColors().muted },
   },
