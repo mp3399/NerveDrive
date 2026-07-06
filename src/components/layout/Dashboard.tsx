@@ -92,7 +92,7 @@ export function Dashboard() {
   return (
     <div className="flex min-h-screen bg-bg relative selection:bg-accent/20">
       {/* Floating Pill Sidebar (desktop) */}
-      <aside className="sticky top-6 bottom-6 ml-6 hidden h-[calc(100vh-48px)] w-[280px] shrink-0 flex-col rounded-[2.5rem] border border-white/5 bg-surface/60 p-6 backdrop-blur-3xl shadow-2xl lg:flex overflow-hidden z-40">
+      <aside className="sticky top-6 bottom-6 ml-6 hidden h-[calc(100vh-48px)] w-[280px] shrink-0 flex-col rounded-[2.5rem] border border-line/60 bg-surface/60 p-6 backdrop-blur-3xl shadow-2xl lg:flex overflow-hidden z-40">
         <div className="mb-8 flex items-center gap-3 px-2">
           <div className="grid h-10 w-10 place-items-center rounded-2xl bg-surface-2 border border-line shadow-sm">
             <Logo className="h-6 w-6" />
@@ -111,7 +111,7 @@ export function Dashboard() {
       </aside>
 
       {/* Floating Pill Bottom Bar (mobile) */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex w-[90%] max-w-sm items-center justify-between rounded-full border border-white/10 bg-surface/80 px-4 py-3 backdrop-blur-xl shadow-2xl lg:hidden">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex w-[90%] max-w-sm items-center justify-between rounded-full border border-line/60 bg-surface/80 px-4 py-3 backdrop-blur-xl shadow-2xl lg:hidden">
         {NAV.slice(0, 5).map((item) => (
           <button
             key={item.id}
@@ -136,7 +136,7 @@ export function Dashboard() {
       {mobileNav && (
         <div className="fixed inset-0 z-[60] lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileNav(false)} />
-          <div className="absolute bottom-0 left-0 w-full rounded-t-3xl border-t border-white/10 bg-bg p-6 shadow-2xl transition-transform duration-300">
+          <div className="absolute bottom-0 left-0 w-full rounded-t-3xl border-t border-line/60 bg-bg p-6 shadow-2xl transition-transform duration-300">
             <div className="mb-6 flex items-center justify-between">
               <span className="font-grotesk text-xl font-bold">All Sections</span>
               <button onClick={() => setMobileNav(false)} className="grid h-8 w-8 place-items-center rounded-full bg-surface-2"><X size={18} /></button>
@@ -163,7 +163,7 @@ export function Dashboard() {
       )}
 
       <div className="flex min-w-0 flex-1 flex-col lg:pl-8 lg:pr-6">
-        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 bg-bg/80 px-4 py-4 backdrop-blur-md sm:px-6 lg:rounded-b-3xl lg:border-b lg:border-white/5 lg:px-8">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 bg-bg/80 px-4 py-4 backdrop-blur-md sm:px-6 lg:rounded-b-3xl lg:border-b lg:border-line/60 lg:px-8">
           <div className="flex items-center gap-3">
             <div>
               <div className="font-grotesk text-sm font-semibold sm:text-lg">

@@ -121,7 +121,7 @@ export function BodySystems() {
 
       <div className="grid gap-6 md:grid-cols-5 items-start">
         {/* Left Column: Stylized Anatomical Graphic */}
-        <div className="md:col-span-2 card p-6 border border-white/5 bg-surface/30 flex flex-col items-center justify-center relative min-h-[460px] overflow-hidden">
+        <div className="md:col-span-2 card p-6 border border-line/60 bg-surface/30 flex flex-col items-center justify-center relative min-h-[460px] overflow-hidden">
           {/* Ambient glow */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(16,185,129,0.05),transparent_70%)] pointer-events-none" />
 
@@ -222,7 +222,7 @@ export function BodySystems() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -12 }}
               transition={{ duration: 0.3 }}
-              className="card p-6 border border-white/5 bg-surface/30 backdrop-blur-md shadow-2xl space-y-6"
+              className="card p-6 border border-line/60 bg-surface/30 backdrop-blur-md shadow-2xl space-y-6"
             >
               {/* Header inside details card */}
               <div className="flex items-center justify-between">

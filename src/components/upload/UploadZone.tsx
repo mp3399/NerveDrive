@@ -21,7 +21,7 @@ export function UploadZone() {
 
   if (step === 'info') {
     return (
-      <div className="card max-w-xl mx-auto p-6 sm:p-8 border border-white/5 bg-surface/40 backdrop-blur-md shadow-2xl relative overflow-hidden">
+      <div className="card max-w-xl mx-auto p-6 sm:p-8 border border-line/60 bg-surface/40 backdrop-blur-md shadow-2xl relative overflow-hidden">
         {/* Ambient background glow */}
         <div className="absolute -right-24 -top-24 w-48 h-48 rounded-full bg-accent/10 blur-3xl pointer-events-none" />
         
@@ -88,7 +88,7 @@ export function UploadZone() {
   }
 
   return (
-    <div className="card max-w-xl mx-auto p-6 border border-white/5 bg-surface/40 backdrop-blur-md shadow-2xl relative overflow-hidden">
+    <div className="card max-w-xl mx-auto p-6 border border-line/60 bg-surface/40 backdrop-blur-md shadow-2xl relative overflow-hidden">
       {/* Profile summary banner */}
       <div className="mb-5 flex items-center justify-between rounded-xl bg-surface-2/40 border border-line/30 px-4 py-2.5 text-xs">
         <div className="flex items-center gap-2 text-muted">

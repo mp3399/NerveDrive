@@ -217,7 +217,7 @@ export function Landing() {
           
           <div className="mt-8 grid gap-4 grid-cols-2 sm:grid-cols-4 md:grid-cols-7 text-left">
             {INTEGRATIONS.map((integ) => (
-              <div key={integ.name} className="flex flex-col items-center text-center card p-4 border border-white/[0.02] bg-surface/10 opacity-70 backdrop-blur-xs select-none hover:opacity-100 transition-all group">
+              <div key={integ.name} className="flex flex-col items-center text-center card p-4 border border-line/40 bg-surface/10 opacity-70 backdrop-blur-xs select-none hover:opacity-100 transition-all group">
                 <div className="mb-3 text-ink/70 group-hover:text-ink transition-colors">
                   {integ.icon}
                 </div>

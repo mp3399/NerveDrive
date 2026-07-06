@@ -15,25 +15,25 @@ export function QualitySection() {
 
       {/* KPI stats grid */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="card overflow-hidden min-w-0 p-5 border border-white/5 bg-surface/30">
+        <div className="card overflow-hidden min-w-0 p-5 border border-line/60 bg-surface/30">
           <span className="text-[10px] text-faint uppercase font-semibold">Total Records</span>
           <div className="text-lg lg:text-xl font-bold font-grotesk text-ink mt-1.5 tabular-nums">{n0(dq.totalRecords)}</div>
           <span className="text-[10px] text-muted block mt-0.5">Biometric logs parsed</span>
         </div>
 
-        <div className="card overflow-hidden min-w-0 p-5 border border-white/5 bg-surface/30">
+        <div className="card overflow-hidden min-w-0 p-5 border border-line/60 bg-surface/30">
           <span className="text-[10px] text-faint uppercase font-semibold">Watch Adherence</span>
           <div className="text-lg lg:text-xl font-bold font-grotesk text-ink mt-1.5 tabular-nums">{Math.round(dq.watchWearPct)}%</div>
           <span className="text-[10px] text-muted block mt-0.5">{dq.watchWornDays} active watch days</span>
         </div>
 
-        <div className="card overflow-hidden min-w-0 p-5 border border-white/5 bg-surface/30">
+        <div className="card overflow-hidden min-w-0 p-5 border border-line/60 bg-surface/30">
           <span className="text-[10px] text-faint uppercase font-semibold">Analysis Window</span>
           <div className="text-lg lg:text-xl font-bold font-grotesk text-ink mt-1.5 tabular-nums">{dq.daysSpan} days</div>
           <span className="text-[10px] text-muted block mt-0.5 truncate">{dq.windowStart} → {dq.windowEnd}</span>
         </div>
 
-        <div className="card overflow-hidden min-w-0 p-5 border border-white/5 bg-surface/30">
+        <div className="card overflow-hidden min-w-0 p-5 border border-line/60 bg-surface/30">
           <span className="text-[10px] text-faint uppercase font-semibold">Contamination Index</span>
           <div className="text-lg lg:text-xl font-bold font-grotesk mt-1.5 text-ink tabular-nums">{dq.contaminationRecords}</div>
           <span className="text-[10px] text-muted block mt-0.5">Shared device overlaps filtered</span>
@@ -41,7 +41,7 @@ export function QualitySection() {
       </div>
 
       {/* Issues Table */}
-      <div className="card p-6 border border-white/5 bg-surface/30 space-y-4">
+      <div className="card p-6 border border-line/60 bg-surface/30 space-y-4">
         <h3 className="font-grotesk font-semibold text-base text-ink">Detected Integrity Flags</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
@@ -72,7 +72,7 @@ export function QualitySection() {
       </div>
 
       {/* Data Inventory Table */}
-      <div className="card p-6 border border-white/5 bg-surface/30 space-y-4">
+      <div className="card p-6 border border-line/60 bg-surface/30 space-y-4">
         <h3 className="font-grotesk font-semibold text-base text-ink">Biological Signal Inventory</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
