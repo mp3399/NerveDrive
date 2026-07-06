@@ -5,6 +5,7 @@ import type { LucideIcon } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { buildRecommendations } from '../../lib/recommendations';
 import { n0, n1 } from '../../lib/format';
+import { Sparkline } from '../ui/Sparkline';
 
 interface Achievement {
   id: string;
@@ -13,6 +14,7 @@ interface Achievement {
   value: string;
   desc: string;
   tone: 'good' | 'accent';
+  sparkKey?: string; // r.series key for a real trend line; omitted when there is no series
 }
 
 export function CoachSection() {
@@ -46,13 +48,13 @@ export function CoachSection() {
     achievements.push({ id: 'top', icon: ShieldCheck, title: `Strongest system: ${topScore.k}`, value: `${topScore.v}/100`, desc: 'Your highest-scoring health pillar.', tone: 'good' });
   const vo2t = trend(c.vo2First, c.vo2Latest, true);
   if (vo2t?.improved)
-    achievements.push({ id: 'vo2', icon: TrendingUp, title: 'VO₂ Max improving', value: `+${n1(vo2t.delta)}`, desc: 'ml/kg/min gained across your recorded window.', tone: 'good' });
+    achievements.push({ id: 'vo2', icon: TrendingUp, title: 'VO₂ Max improving', value: `+${n1(vo2t.delta)}`, desc: 'ml/kg/min gained across your recorded window.', tone: 'good', sparkKey: 'vo2' });
   const rhrt = trend(c.restingHrFirst, c.restingHrLast, false);
   if (rhrt?.improved)
-    achievements.push({ id: 'rhr', icon: TrendingUp, title: 'Resting HR trending down', value: `-${n0(-rhrt.delta)} bpm`, desc: 'Lower resting heart rate across your window.', tone: 'good' });
+    achievements.push({ id: 'rhr', icon: TrendingUp, title: 'Resting HR trending down', value: `-${n0(-rhrt.delta)} bpm`, desc: 'Lower resting heart rate across your window.', tone: 'good', sparkKey: 'restingHr' });
   const hrvt = trend(c.hrvFirst, c.hrvLast, true);
   if (hrvt?.improved)
-    achievements.push({ id: 'hrv', icon: TrendingUp, title: 'HRV trending up', value: `+${n0(hrvt.delta)} ms`, desc: 'Higher heart rate variability across your window.', tone: 'good' });
+    achievements.push({ id: 'hrv', icon: TrendingUp, title: 'HRV trending up', value: `+${n0(hrvt.delta)} ms`, desc: 'Higher heart rate variability across your window.', tone: 'good', sparkKey: 'hrv' });
 
   return (
     <div className="space-y-8">
@@ -74,6 +76,13 @@ export function CoachSection() {
                 <div className="text-2xl font-bold font-grotesk text-ink tabular-nums">{ms.value}</div>
                 <h4 className="font-semibold text-sm text-ink mt-1">{ms.title}</h4>
                 <p className="text-xs text-muted mt-1 leading-relaxed">{ms.desc}</p>
+                {ms.sparkKey && (
+                  <Sparkline
+                    values={r.series[ms.sparkKey]?.values}
+                    color={ms.tone === 'good' ? 'rgb(var(--good))' : 'rgb(var(--accent))'}
+                    className="mt-3 w-full h-5 opacity-70"
+                  />
+                )}
               </div>
             </div>
           ))}

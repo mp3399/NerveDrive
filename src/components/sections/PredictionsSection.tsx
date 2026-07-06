@@ -77,7 +77,7 @@ export function PredictionsSection() {
 
       <div className="grid gap-6 lg:grid-cols-12 items-start">
         {/* Left Column: Sliders Panel */}
-        <div className="lg:col-span-5 card p-6 border border-white/5 bg-surface/30 space-y-6">
+        <div className="lg:col-span-5 card p-6 border border-line/60 bg-surface/30 space-y-6">
           <span className="text-xs uppercase tracking-widest text-faint font-semibold block border-b border-line/30 pb-3">Scenario Simulation</span>
 
           <div className="space-y-5">
@@ -175,7 +175,7 @@ export function PredictionsSection() {
 
         {/* Right Column: Deep Explanation & Projections */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="card p-6 border border-white/5 bg-surface/30 backdrop-blur-md shadow-2xl relative overflow-hidden space-y-6">
+          <div className="card p-6 border border-line/60 bg-surface/30 backdrop-blur-md shadow-2xl relative overflow-hidden space-y-6">
             <div className="absolute -left-20 -bottom-20 w-48 h-48 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
             <div className="flex items-start justify-between border-b border-line/30 pb-4">

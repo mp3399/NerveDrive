@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { DotMatrixNumber } from '../ui/DotMatrixNumber';
+import { Sparkline } from '../ui/Sparkline';
 
 // ---- helpers ----
 const fmt1 = (n: number) => isNaN(n) ? '--' : n.toFixed(1);
@@ -456,7 +457,7 @@ export function Overview() {
 
         {/* ---- Superpower Score Widget ---- */}
         <motion.div
-          className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#f59e0b]/5 via-[#10b981]/10 to-[#3b82f6]/5 p-6 shadow-glow"
+          className="relative overflow-hidden rounded-3xl border border-line/60 aurora aurora-score p-6 shadow-glow"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -513,7 +514,7 @@ export function Overview() {
 
         {/* ---- Biological Age Widget ---- */}
         <motion.div
-          className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-tr from-[#3b82f6]/10 via-[#ec4899]/5 to-[#f59e0b]/5 p-6 shadow-card"
+          className="relative overflow-hidden rounded-3xl border border-line/60 aurora aurora-age p-6 shadow-card"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
@@ -585,7 +586,7 @@ export function Overview() {
 
         {/* ---- Daily Vitals Grid Widget ---- */}
         <motion.div
-          className="relative overflow-hidden rounded-3xl border border-white/5 bg-surface/40 backdrop-blur-sm p-6 shadow-card"
+          className="relative overflow-hidden rounded-3xl border border-line/60 bg-surface/40 backdrop-blur-sm p-6 shadow-card"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -608,6 +609,7 @@ export function Overview() {
               <div className="font-grotesk font-bold text-2xl text-ink leading-none">
                 {rhrVal ?? '--'}
               </div>
+              <Sparkline values={r.series.restingHr?.values} color="rgb(var(--bad))" className="mt-2 w-full h-4 opacity-70" />
               <div className="text-[9px] uppercase tracking-wider text-faint mt-1.5 font-semibold">Resting HR</div>
               <div className="text-[9px] text-muted">bpm</div>
             </div>
@@ -621,6 +623,7 @@ export function Overview() {
               <div className="font-grotesk font-bold text-2xl text-ink leading-none">
                 {hrvVal ?? '--'}
               </div>
+              <Sparkline values={r.series.hrv?.values} color="rgb(var(--accent))" className="mt-2 w-full h-4 opacity-70" />
               <div className="text-[9px] uppercase tracking-wider text-faint mt-1.5 font-semibold">HRV SDNN</div>
               <div className="text-[9px] text-muted">ms</div>
             </div>
@@ -634,6 +637,7 @@ export function Overview() {
               <div className="font-grotesk font-bold text-2xl text-ink leading-none">
                 {sleepVal ? sleepVal.toFixed(1) : '--'}
               </div>
+              <Sparkline values={r.series.sleep?.values} color="rgb(99 102 241)" className="mt-2 w-full h-4 opacity-70" />
               <div className="text-[9px] uppercase tracking-wider text-faint mt-1.5 font-semibold">Sleep</div>
               <div className="text-[9px] text-muted">hours avg</div>
             </div>
@@ -647,6 +651,7 @@ export function Overview() {
               <div className="font-grotesk font-bold text-2xl text-ink leading-none">
                 {stepsVal ? (stepsVal >= 1000 ? `${(stepsVal / 1000).toFixed(1)}k` : stepsVal) : '--'}
               </div>
+              <Sparkline values={r.series.steps?.values} color="rgb(var(--warn))" className="mt-2 w-full h-4 opacity-70" />
               <div className="text-[9px] uppercase tracking-wider text-faint mt-1.5 font-semibold">Steps</div>
               <div className="text-[9px] text-muted">daily median</div>
             </div>
@@ -676,7 +681,7 @@ export function Overview() {
         </div>
 
         {insights.length === 0 ? (
-          <div className="card border border-white/5 bg-surface/30 p-8 text-center rounded-2xl">
+          <div className="card border border-line/60 bg-surface/30 p-8 text-center rounded-2xl">
             <ShieldCheck size={32} className="text-faint mx-auto mb-3" />
             <p className="text-sm text-muted">Not enough health data for personalized insights.</p>
             <p className="text-xs text-faint mt-1">Upload a health export with at least 30 days of data.</p>
@@ -688,7 +693,7 @@ export function Overview() {
               return (
                 <div
                   key={idx}
-                  className="card border border-white/5 bg-surface/30 hover:border-accent/40 transition-all rounded-2xl overflow-hidden cursor-pointer"
+                  className="card border border-line/60 bg-surface/30 hover:border-accent/40 transition-all rounded-2xl overflow-hidden cursor-pointer"
                   onClick={() => setSelectedInsight(isSelected ? null : idx)}
                 >
                   <div className="p-4 sm:p-5 flex items-center justify-between gap-4">
@@ -779,7 +784,7 @@ export function Overview() {
               href={`https://www.amazon.in/s?k=${supp.amazonQuery}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="card p-5 border border-white/5 bg-surface/30 relative overflow-hidden flex flex-col justify-between min-h-[168px] group hover:border-line/50 hover:shadow-glow transition-all"
+              className="card p-5 border border-line/60 bg-surface/30 relative overflow-hidden flex flex-col justify-between min-h-[168px] group hover:border-line/50 hover:shadow-glow transition-all"
               onClick={(e) => e.stopPropagation()}
             >
               <div className={`absolute -right-6 -bottom-6 w-20 h-20 rounded-full bg-gradient-to-br ${supp.blobColor} blur-xs opacity-70 animate-pulse-soft`} />

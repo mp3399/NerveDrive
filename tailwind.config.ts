@@ -28,7 +28,8 @@ export default {
       borderRadius: { xl: '16px', '2xl': '22px', '3xl': '28px', '4xl': '34px' },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        grotesk: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+        // Display face: Inter (neutral grotesk, matches the reference). Keeps a full fallback chain.
+        grotesk: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         card: '0 1px 0 0 rgb(var(--line) / 0.6), 0 8px 30px -12px rgb(0 0 0 / 0.45)',
