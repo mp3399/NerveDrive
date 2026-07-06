@@ -17,7 +17,7 @@ The app makes essentially no network calls after it loads. The single optional r
 
 To remove even the font request:
 
-1. Download the Inter and Space Grotesk `woff2` files into `public/fonts/`.
+1. Download the Inter `woff2` files (weights 400 to 800) into `public/fonts/`.
 2. Replace the `@import` at the top of `src/index.css` with local `@font-face` rules.
 3. Rebuild. The app now makes zero third-party requests and works offline (it can be installed as a PWA in a future release).
 

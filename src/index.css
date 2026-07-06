@@ -1,6 +1,7 @@
 /* Fonts: the ONLY optional external request in the app. Health data is never sent.
-   For fully-offline builds, self-host these and remove this @import (see PRIVACY.md). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+   For fully-offline builds, self-host these and remove this @import (see PRIVACY.md).
+   Display + body both use Inter (a neutral grotesk), matching the reference design language. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -91,6 +92,42 @@
   }
   .glass {
     @apply rounded-3xl border bg-surface/40 backdrop-blur-md;
+  }
+  /* Aurora mesh cards (static, no animation -> reduced-motion safe; no backdrop-blur on this layer).
+     Score/track derive from theme tokens; the bio-age blue->orange is a documented categorical pair. */
+  .aurora {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .aurora::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  }
+  .aurora-score {
+    background-color: rgb(var(--surface));
+    background-image:
+      radial-gradient(60% 55% at 22% 12%, rgb(var(--warn) / 0.55), transparent 62%),
+      radial-gradient(70% 65% at 82% 26%, rgb(var(--accent) / 0.45), transparent 60%),
+      radial-gradient(95% 80% at 50% 108%, rgb(var(--good) / 0.6), transparent 60%);
+  }
+  .aurora-age {
+    background-color: rgb(var(--surface));
+    background-image:
+      radial-gradient(60% 55% at 20% 15%, rgb(96 165 250 / 0.5), transparent 62%),
+      radial-gradient(80% 75% at 78% 30%, rgb(148 163 184 / 0.35), transparent 60%),
+      radial-gradient(95% 85% at 55% 105%, rgb(249 115 22 / 0.6), transparent 60%);
+  }
+  .aurora-track {
+    background-color: rgb(var(--surface));
+    background-image:
+      radial-gradient(70% 60% at 30% 20%, rgb(244 114 182 / 0.55), transparent 62%),
+      radial-gradient(80% 80% at 75% 80%, rgb(236 72 153 / 0.6), transparent 60%);
   }
   .pill {
     @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium;
